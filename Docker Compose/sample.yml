@@ -1,0 +1,16 @@
+version: '3.1'
+
+services: 
+
+  service_name: #same as --name in docker run
+    image: #image name
+    command: #same sa CMD in dockerfile
+    environment: #same as ENV in Dockerfile
+    volumes: #same as -v in docker runs
+
+  service_name2:
+
+
+  volumes: #same as docker volume create
+
+  networks: #same as docker network create
