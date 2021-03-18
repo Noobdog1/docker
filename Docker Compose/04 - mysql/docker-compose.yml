@@ -1,3 +1,8 @@
+#----1-----
+#Tworzy volume z unikalna nazwa, bez tego proces inicjalizacji będzie występował za każdym uruchomieneim docker-compose up
+#podczas ustawienia volume, po ponownym uruchomieniu docker-compose up mysql podepnie się pod jż istniejące dane 
+#dzięki czemu będziemy mieli dostęp do tabel i rekordów które utworzyliśmy podczas poprzednej sesji 
+
 version: '3'
 
 services: 
@@ -13,5 +18,14 @@ services:
       - '3306'
     volumes: 
       - mysql_data:/var/lib/mysql
+    
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports: 
+      - '8080:80'
+    expose: 
+      - '80'
+#----1-----
 volumes: 
-  mysql_data:
+  mysql_data: 
