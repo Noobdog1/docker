@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  php-fpm:
+    build:
+      context: ./php-fpm
+    container_name: php-fpm
+    networks:
+      - "9000"
+    volumes:
+      - ./src:/var/www
+    networks:
+      - lab01
+    
+  nginx:
+    build:
+      context: ./nginx
+    container_name: nginx
+    ports:
+      - "8081:80"
+      - "8443:443"
+    volumes:
+      - ./src:/var/www
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/sites:/etc/nginx/sites-available
+      - ./nginx/conf.d/:/etc/nginx/conf.d
+    networks:
+      - lab01
