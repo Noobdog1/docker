@@ -26,3 +26,6 @@ services:
       - ./nginx/conf.d/:/etc/nginx/conf.d
     networks:
       - lab01
+
+networks:
+  lab01:

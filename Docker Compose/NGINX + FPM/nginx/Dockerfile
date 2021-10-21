@@ -1,5 +1,5 @@
 FROM nginx:alpine
 
-CMD [ "nginx", "-g", "deamon off;" ]
+CMD [ "nginx", "-g", "daemon off;" ]
 
 EXPOSE 80 443
