@@ -1,16 +1,76 @@
 version: '3.1'
 
-services: 
+services:
+  vote:
+    build: ./vote
+    # use python rather than gunicorn for local dev
+    command: python app.py
+    depends_on:
+      redis:
+        condition: service_healthy 
+    volumes:
+     - ./vote:/app
+    ports:
+      - "5000:80"
+    networks:
+      - front-tier
+      - back-tier
 
-  service_name: #same as --name in docker run
-    image: #image name
-    command: #same sa CMD in dockerfile
-    environment: #same as ENV in Dockerfile
-    volumes: #same as -v in docker runs
+  result:
+    build: ./result
+    # use nodemon rather than node for local dev
+    command: nodemon server.js
+    depends_on:
+      db:
+        condition: service_healthy 
+    volumes:
+      - ./result:/app
+    ports:
+      - "5001:80"
+      - "5858:5858"
+    networks:
+      - front-tier
+      - back-tier
 
-  service_name2:
+  worker:
+    build:
+      context: ./worker
+    depends_on:
+      redis:
+        condition: service_healthy 
+      db:
+        condition: service_healthy 
+    networks:
+      - back-tier
 
+  redis:
+    image: redis:5.0-alpine3.10
+    volumes:
+      - "./healthchecks:/healthchecks"
+    healthcheck:
+      test: /healthchecks/redis.sh
+      interval: "5s"
+    ports: ["6379"]
+    networks:
+      - back-tier
 
-  volumes: #same as docker volume create
+  db:
+    image: postgres:9.4
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+      - "./healthchecks:/healthchecks"
+    healthcheck:
+      test: /healthchecks/postgres.sh
+      interval: "5s"
+    networks:
+      - back-tier
 
-  networks: #same as docker network create
+volumes:
+  db-data:
+
+networks:
+  front-tier:
+  back-tier:
