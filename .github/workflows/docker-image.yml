@@ -15,6 +15,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: dev
+    env:
+      IMAGE_NAME: frontend
     steps:
     - uses: actions/checkout@v4
     
@@ -34,8 +36,8 @@ jobs:
         echo ${{ secrets.REGISTRY_LOGIN_SERVER }}/geofencing-ui:${{github.run_number}}
         echo ${{github.workspace}}/deployment/Dockerfile
         az acr login --name ${{ secrets.REGISTRY_LOGIN_SERVER }}
-        docker build -t zvoovetesting.azurecr.io/frontend:18 -f ${{github.workspace}}/deployment/Dockerfile
-        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/geofencing-ui:${{github.run_number}}
+        docker build -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/$IMAGE_NAME:${{github.run_number}} -f ${{github.workspace}}/deployment/Dockerfile ${{github.workspace}}
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/frontend-ui:${{github.run_number}}
 
   
     
