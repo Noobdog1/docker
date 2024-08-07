@@ -22,14 +22,14 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     - name: Set Git Commit SHA
-        run: |
-          echo "GIT_COMMIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
+      run: |
+        echo "GIT_COMMIT_SHA=${GITHUB_SHA}" >> $GITHUB_ENV
 
     - name: Docker build and push ACR
-        run: |
-          az acr login --name ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          docker build -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/geofencing-ui:${{ env.GIT_COMMIT_SHA }} .
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/geofencing-ui:${{ env.GIT_COMMIT_SHA }}
+      run: |
+        az acr login --name ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        docker build -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/geofencing-ui:${{ env.GIT_COMMIT_SHA }} .
+        docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/geofencing-ui:${{ env.GIT_COMMIT_SHA }}
 
+  
     
-      
