@@ -34,7 +34,7 @@ jobs:
         echo ${{ secrets.REGISTRY_LOGIN_SERVER }}/geofencing-ui:${{github.run_number}}
         echo ${{github.workspace}}/deployment/Dockerfile
         az acr login --name ${{ secrets.REGISTRY_LOGIN_SERVER }}
-        docker build -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/geofencing-ui:${{github.run_number}} -f ${{github.workspace}}/deployment/Dockerfile
+        docker build -t zvoovetesting.azurecr.io/geofencing-ui:${{github.run_number}} -f ${{github.workspace}}/deployment/Dockerfile
         docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/geofencing-ui:${{github.run_number}}
 
   
