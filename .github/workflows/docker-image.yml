@@ -31,7 +31,7 @@ jobs:
 
     - name: Docker build and push ACR
       run: |
-        echo ${{ GITHUB_WORKSPACE }}
+        echo ${ GITHUB_WORKSPACE }
         echo $GITHUB_ENV
         az acr login --name ${{ secrets.REGISTRY_LOGIN_SERVER }}
         docker build -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/geofencing-ui:${{ env.GIT_COMMIT_SHA }} -f ${GITHUB_WORKSPACE}/deployment/Dockerfile
